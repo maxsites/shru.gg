@@ -5,6 +5,7 @@
    font-weight: normal;
    src: url(/arial.eot);
  }
+
  div#shrug {
    font-family: Arial Unicode MS;
    text-align: center;
@@ -13,7 +14,7 @@
  }
 </style>
 
-<div id="shrug">
+<div id="shrug" onclick="selectText('shrug')">
   &macr;\_(&#12484;)_/&macr;
 </div>
 
@@ -25,4 +26,24 @@
 
   ga('create', 'UA-67212561-1', 'auto');
   ga('send', 'pageview');
+</script>
+
+<script type="text/javascript">
+ function selectText(containerid) {
+   var node = document.getElementById(containerid);
+
+   if (document.selection) {
+     var range = document.body.createTextRange();
+     range.moveToElementText(node);
+     range.select();
+   }
+   else if (window.getSelection) {
+     var range = document.createRange();
+     range.selectNodeContents(node);
+     window.getSelection().removeAllRanges();
+     window.getSelection().addRange(range);
+   }
+
+   ga('send', 'event', 'text', 'select_shrug_text', 'selected shrug text');
+ }
 </script>
