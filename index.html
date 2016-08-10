@@ -93,19 +93,22 @@
     var node = document.getElementById(containerid);
 
     try {
-      if (!document.execCommand('copy')) {
+      if (document.execCommand('copy')) {
+        var message = document.querySelector('div.message');
+        message.classList.remove('hidden');
+        message.classList.add('show');
+        setTimeout(function(){
+          message.classList.remove('show');
+          message.classList.add('hidden');
+        }, 3000);
+      }
+      else {
         ga('send', 'event', 'text', 'copy_execcommand_failed', 'execCommand failed');
       }
-    } catch (err) {
+    }
+    catch (err) {
       ga('send', 'event', 'text', 'copy_execcommand_error', 'there was an error running execCommand');
     }
 
-    var message = document.querySelector('div.message');
-    message.classList.remove('hidden');
-    message.classList.add('show');
-    setTimeout(function(){
-      message.classList.remove('show');
-      message.classList.add('hidden');
-    }, 3000);
   }
 </script>
