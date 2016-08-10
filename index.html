@@ -12,10 +12,52 @@
    font-size: 80px;
    font-size: 20vw;
  }
+
+ .hidden {
+   display: none;
+ }
+
+ div.message {
+   text-align: center;
+   color: green;
+   font-size: 20px;
+   font-size: 5vw;
+ }
+
+ div.message.show {
+   visibility: visible;
+
+   -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+   animation: fadein 0.5s, fadeout 0.5s 2.5s;
+ }
+
+ @-webkit-keyframes fadein {
+   from {bottom: 0; opacity: 0;}
+   to {bottom: 30px; opacity: 1;}
+ }
+
+ @keyframes fadein {
+   from {bottom: 0; opacity: 0;}
+   to {bottom: 30px; opacity: 1;}
+ }
+
+ @-webkit-keyframes fadeout {
+   from {bottom: 30px; opacity: 1;}
+   to {bottom: 0; opacity: 0;}
+ }
+
+ @keyframes fadeout {
+   from {bottom: 30px; opacity: 1;}
+   to {bottom: 0; opacity: 0;}
+ }
 </style>
 
 <div id="shrug" onclick="selectText('shrug'); copyText('shrug')">
   &macr;\_(&#12484;)_/&macr;
+</div>
+
+<div class="message hidden">
+  Shrug copied!
 </div>
 
 <script>
@@ -29,33 +71,41 @@
 </script>
 
 <script type="text/javascript">
- function selectText(containerid) {
-   var node = document.getElementById(containerid);
+  function selectText(containerid) {
+    var node = document.getElementById(containerid);
 
-   if (document.selection) {
-     var range = document.body.createTextRange();
-     range.moveToElementText(node);
-     range.select();
-   }
-   else if (window.getSelection) {
-     var range = document.createRange();
-     range.selectNodeContents(node);
-     window.getSelection().removeAllRanges();
-     window.getSelection().addRange(range);
-   }
+    if (document.selection) {
+      var range = document.body.createTextRange();
+      range.moveToElementText(node);
+      range.select();
+    }
+    else if (window.getSelection) {
+      var range = document.createRange();
+      range.selectNodeContents(node);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+    }
 
-   ga('send', 'event', 'text', 'select_shrug_text', 'selected shrug text');
- }
+    ga('send', 'event', 'text', 'select_shrug_text', 'selected shrug text');
+  }
 
- function copyText(containerid) {
-   var node = document.getElementById(containerid);
+  function copyText(containerid) {
+    var node = document.getElementById(containerid);
 
-   try {
-     if (!document.execCommand('copy')) {
-       ga('send', 'event', 'text', 'copy_execcommand_failed', 'execCommand failed');
-     }
-   } catch (err) {
-     ga('send', 'event', 'text', 'copy_execcommand_error', 'there was an error running execCommand');
-   }
- }
+    try {
+      if (!document.execCommand('copy')) {
+        ga('send', 'event', 'text', 'copy_execcommand_failed', 'execCommand failed');
+      }
+    } catch (err) {
+      ga('send', 'event', 'text', 'copy_execcommand_error', 'there was an error running execCommand');
+    }
+
+    var message = document.querySelector('div.message');
+    message.classList.remove('hidden');
+    message.classList.add('show');
+    setTimeout(function(){
+      message.classList.remove('show');
+      message.classList.add('hidden');
+    }, 3000);
+  }
 </script>
