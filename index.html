@@ -14,7 +14,7 @@
  }
 </style>
 
-<div id="shrug" onclick="selectText('shrug')">
+<div id="shrug" onclick="selectText('shrug'); copyText('shrug')">
   &macr;\_(&#12484;)_/&macr;
 </div>
 
@@ -45,5 +45,17 @@
    }
 
    ga('send', 'event', 'text', 'select_shrug_text', 'selected shrug text');
+ }
+
+ function copyText(containerid) {
+   var node = document.getElementById(containerid);
+
+   try {
+     if (!document.execCommand('copy')) {
+       ga('send', 'event', 'text', 'copy_execcommand_failed', 'execCommand failed');
+     }
+   } catch (err) {
+     ga('send', 'event', 'text', 'copy_execcommand_error', 'there was an error running execCommand');
+   }
  }
 </script>
