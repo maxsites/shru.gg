@@ -1,0 +1,120 @@
+<style type="text/css">
+ @font-face {
+   font-family: Arial Unicode MS;
+   font-style:  normal;
+   font-weight: normal;
+   src: url(/arial.eot);
+ }
+
+ div#free_shrugs {
+   font-family: Arial Unicode MS;
+   text-align: center;
+   font-size: 80px;
+   font-size: 20vw;
+ }
+
+ .hidden {
+   display: none;
+ }
+
+ div.message {
+   text-align: center;
+   color: green;
+   font-size: 20px;
+   font-size: 5vw;
+ }
+
+ div.message.show {
+   visibility: visible;
+
+ -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+   animation: fadein 0.5s, fadeout 0.5s 2.5s;
+ }
+
+ @-webkit-keyframes fadein {
+   from {bottom: 0; opacity: 0;}
+   to {bottom: 30px; opacity: 1;}
+ }
+
+ @keyframes fadein {
+   from {bottom: 0; opacity: 0;}
+   to {bottom: 30px; opacity: 1;}
+ }
+
+ @-webkit-keyframes fadeout {
+   from {bottom: 30px; opacity: 1;}
+   to {bottom: 0; opacity: 0;}
+ }
+
+ @keyframes fadeout {
+   from {bottom: 30px; opacity: 1;}
+   to {bottom: 0; opacity: 0;}
+ }
+</style>
+
+<title>Free shrugs</title>
+
+<div id="free_shrugs" onclick="selectText('free_shrugs'); copyText('free_shrugs')">
+  <img src="/freeshrugs.jpg" />
+</div>
+
+<div class="message hidden">
+  Free shrugs copied!
+</div>
+
+
+<p style="position:absolute;bottom:0; font-size:x-small;">Check out the
+original: <a href="https://shru.gg">shru.gg</a></p>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-67212561-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+<script type="text/javascript">
+  function selectText(containerid) {
+    var node = document.getElementById(containerid);
+
+    if (document.selection) {
+      var range = document.body.createTextRange();
+      range.moveToElementText(node);
+      range.select();
+    }
+    else if (window.getSelection) {
+      var range = document.createRange();
+      range.selectNodeContents(node);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+    }
+
+    ga('send', 'event', 'text', 'select_free_shrugs_text', 'selected free_shrugs text');
+  }
+
+  function copyText(containerid) {
+    var node = document.getElementById(containerid);
+
+    try {
+      if (document.execCommand('copy')) {
+        var message = document.querySelector('div.message');
+        message.classList.remove('hidden');
+        message.classList.add('show');
+        setTimeout(function(){
+          message.classList.remove('show');
+          message.classList.add('hidden');
+        }, 3000);
+      }
+      else {
+        ga('send', 'event', 'text', 'copy_execcommand_failed', 'execCommand failed');
+      }
+    }
+    catch (err) {
+      ga('send', 'event', 'text', 'copy_execcommand_error', 'there was an error running execCommand');
+    }
+
+  }
+</script>
