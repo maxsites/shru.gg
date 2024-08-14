@@ -66,6 +66,37 @@
     {{ content }}
   </body>
   <footer>
-    <script data-goatcounter="https://shrug.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+    <script type="text/javascript">
+      function selectText() {
+        var node = document.getElementById('content');
+
+        if (document.selection) {
+          var range = document.body.createTextRange();
+          range.moveToElementText(node);
+          range.select();
+        }
+        else if (window.getSelection) {
+          var range = document.createRange();
+          range.selectNodeContents(node);
+          window.getSelection().removeAllRanges();
+          window.getSelection().addRange(range);
+        }
+      }
+
+      function copyText() {
+        var node = document.getElementById('content');
+
+        if (document.execCommand('copy')) {
+          var message = document.querySelector('div.message');
+          message.classList.remove('hidden');
+          message.classList.add('show');
+          setTimeout(function(){
+            message.classList.remove('show');
+            message.classList.add('hidden');
+          }, 3000);
+        }
+
+      }
+    </script>
   </footer>
 </html>
